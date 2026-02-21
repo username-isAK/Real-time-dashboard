@@ -1,4 +1,3 @@
-// src/Auth.jsx
 import { useState } from "react";
 import { supabase } from "./supabase";
 
@@ -52,31 +51,49 @@ function Auth() {
   }
 
   return (
-    <div>
-      <h2>Login / Signup</h2>
+    <div className="min-h-screen flex items-center justify-center bg-gray-100 px-4">
+      <div className="w-full max-w-md bg-white rounded-2xl shadow-lg p-8 space-y-6">
+        <h2 className="text-2xl font-semibold text-center text-gray-800">
+          Login / Signup
+        </h2>
 
-      <input
-        placeholder="Email"
-        value={email}
-        onChange={(e) => setEmail(e.target.value)}
-        disabled={loading}
-      />
+        <div className="space-y-4">
+          <input
+            className="w-full px-4 py-2 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 transition"
+            placeholder="Email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            disabled={loading}
+          />
 
-      <input
-        type="password"
-        placeholder="Password"
-        value={password}
-        onChange={(e) => setPassword(e.target.value)}
-        disabled={loading}
-      />
+          <input
+            type="password"
+            className="w-full px-4 py-2 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 transition"
+            placeholder="Password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            disabled={loading}
+          />
+        </div>
 
-      <button onClick={signIn} disabled={loading}>
-        {loading ? "Processing..." : "Login"}
-      </button>
+        <div className="flex flex-col gap-3">
+          <button
+            onClick={signIn}
+            disabled={loading}
+            className="w-full py-2 rounded-xl bg-blue-600 text-white font-medium hover:bg-blue-700 disabled:opacity-50 transition"
+          >
+            {loading ? "Processing..." : "Login"}
+          </button>
 
-      <button onClick={signUp} disabled={loading}>
-        {loading ? "Processing..." : "Signup"}
-      </button>
+          <button
+            onClick={signUp}
+            disabled={loading}
+            className="w-full py-2 rounded-xl bg-gray-800 text-white font-medium hover:bg-gray-900 disabled:opacity-50 transition"
+          >
+            {loading ? "Processing..." : "Signup"}
+          </button>
+        </div>
+      </div>
     </div>
   );
 }
