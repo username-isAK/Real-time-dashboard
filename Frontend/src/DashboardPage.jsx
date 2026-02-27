@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { supabase } from "./supabase";
+import WidgetItem from "./WidgetItem";
 
 function DashboardPage({ dashboard: initialDashboard, user, goBack }) {
   const params = useParams();
@@ -82,7 +83,6 @@ function DashboardPage({ dashboard: initialDashboard, user, goBack }) {
     fetchMembers();
   }
 
-
   useEffect(() => {
     if (dashboard?.id) fetchWidgets();
   }, [dashboard?.id]);
@@ -118,7 +118,6 @@ function DashboardPage({ dashboard: initialDashboard, user, goBack }) {
 
     setWidgets((prev) => [...prev, data]);
   }
-
 
   useEffect(() => {
     const test = supabase
@@ -175,7 +174,6 @@ function DashboardPage({ dashboard: initialDashboard, user, goBack }) {
     };
   }, [dashboard?.id]);
 
-
   const updateWidget = async (widgetId, newContent) => {
     const widget = widgets.find((w) => w.id === widgetId);
     if (!widget) return;
@@ -195,7 +193,6 @@ function DashboardPage({ dashboard: initialDashboard, user, goBack }) {
       alert(error.message || "Update failed");
     }
   };
-
 
   const deleteWidget = async (widgetId) => {
     const { data, error } = await supabase
@@ -300,35 +297,13 @@ function DashboardPage({ dashboard: initialDashboard, user, goBack }) {
           <p className="text-gray-600">Loading widgets...</p>
         ) : (
           <ul className="space-y-3">
-            {widgets.map((w, idx) => (
-              <li
-                key={w.id ?? `widget-${idx}`}
-                className="bg-gray-50 p-4 rounded-lg flex justify-between items-center"
-              >
-                <span className="text-gray-800">
-                  {w.type === "text" && w.content?.text}
-                </span>
-
-                <div className="flex gap-2">
-                  <button
-                    onClick={() =>
-                      updateWidget(w.id, {
-                        text: "Edited at " + Date.now(),
-                      })
-                    }
-                    className="px-3 py-1 bg-yellow-500 text-white rounded-md hover:bg-yellow-600 transition cursor-pointer"
-                  >
-                    Edit
-                  </button>
-
-                  <button
-                    onClick={() => deleteWidget(w.id)}
-                    className="px-3 py-1 bg-red-600 text-white rounded-md hover:bg-red-700 transition cursor-pointer"
-                  >
-                    Delete
-                  </button>
-                </div>
-              </li>
+            {widgets.map((w) => (
+              <WidgetItem
+                key={w.id}
+                widget={w}
+                onUpdate={updateWidget}
+                onDelete={deleteWidget}
+              />
             ))}
           </ul>
         )}
